@@ -426,9 +426,21 @@ export default function Home() {
                           </span>
                         </div>
 
-                        <details className="rounded-[1.5rem] border border-stone-900/10 bg-[#faf7f2]">
-                          <summary className="cursor-pointer list-none px-5 py-4 text-sm font-semibold text-stone-800">
-                            Signal breakdown and raw values
+                        <details className="group rounded-[1.5rem] border border-stone-900/10 bg-[#faf7f2] transition hover:border-[#123c36]/30 hover:shadow-[0_0_0_3px_rgba(18,60,54,0.12),0_12px_28px_rgba(18,60,54,0.12)]">
+                          <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-5 py-4 text-sm font-semibold text-stone-800 transition group-hover:text-[#123c36]">
+                            <span>Signal breakdown and raw values</span>
+                            <svg
+                              aria-hidden="true"
+                              viewBox="0 0 20 20"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              className="size-4 shrink-0 text-stone-500 transition-transform duration-200 group-hover:text-[#123c36] group-open:rotate-180"
+                            >
+                              <path d="M5 8l5 5 5-5" />
+                            </svg>
                           </summary>
                           <div className="border-t border-stone-900/10 px-5 py-5">
                             <div className="grid gap-4 xl:grid-cols-2">
