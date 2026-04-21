@@ -1,6 +1,6 @@
 "use client";
 
-import { startTransition, useRef, useState } from "react";
+import { startTransition, useEffect, useRef, useState } from "react";
 
 import type { ErrorEvent, Result, StatusEvent, StreamEvent } from "@/lib/types";
 
@@ -47,6 +47,7 @@ export default function Home() {
   const [errors, setErrors] = useState<ErrorEvent[]>([]);
   const [isRunning, setIsRunning] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
+  const [elapsedMs, setElapsedMs] = useState(0);
   const [marketplaceFilter, setMarketplaceFilter] = useState<
     "all" | "amazon" | "ebay"
   >("all");
@@ -54,6 +55,22 @@ export default function Home() {
   const [showNonShortlisted, setShowNonShortlisted] = useState(true);
 
   const abortRef = useRef<AbortController | null>(null);
+
+  useEffect(() => {
+    if (!isRunning) {
+      return;
+    }
+
+    const startedAt = Date.now();
+    setElapsedMs(0);
+    const intervalId = window.setInterval(() => {
+      setElapsedMs(Date.now() - startedAt);
+    }, 100);
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
+  }, [isRunning]);
 
   const filteredResults = results
     .filter((result) =>
@@ -195,7 +212,7 @@ export default function Home() {
           />
           <StatusCard
             label="Elapsed"
-            value={formatDuration(status?.elapsedMs ?? 0)}
+            value={formatDuration(elapsedMs)}
             detail={`${status?.uniqueResults ?? 0} unique results`}
           />
           <StatusCard

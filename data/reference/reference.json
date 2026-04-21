@@ -12,16 +12,16 @@
     "phash": "c769b0948f2f72d0"
   },
   {
-    "id": "airplane-mode-travel-zip-hoodie",
-    "title": "Airplane Mode Travel Zip Hoodie",
+    "id": "travel-essentials-zip-hoodie",
+    "title": "Halo Lightweight Crop Hoodie",
     "category": "Hoodie",
-    "url": "https://comfrt.com/products/airplane-mode-travel-zip-hoodie",
-    "imageUrl": "https://comfrt.com/fast-image/comfrt/files/1_78.jpg%3Fv=1764113204",
-    "imagePath": "data/reference/images/airplane_mode_travel_zip_hoodie.jpg",
+    "url": "https://comfrt.com/products/halo-lightweight-fleece-hoodie?variant=44961282031660",
+    "imageUrl": "https://comfrt.com/fast-image/comfrt/files/1_54_28f0274b-7e59-49eb-b75e-7a483f98ba6e.jpg?v=1763419911",
+    "imagePath": "data/reference/images/halo_lightweight_crop_hoodie.png",
     "minPrice": 65,
     "maxPrice": 65,
     "medianPrice": 65,
-    "phash": "966ee3339cc6590c"
+    "phash": "e1558fb8982a9576"
   },
   {
     "id": "cloud-zip-hoodie",
