@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 
 import type { ReferenceItem } from "@/lib/types";
-import { computePhash } from "@/lib/scoring/phash";
+import { computeImageHashes } from "@/lib/scoring/phash";
 
 let referenceCache: Promise<ReferenceItem[]> | null = null;
 
@@ -22,16 +22,18 @@ async function loadReferenceSetFromDisk() {
 
   return Promise.all(
     parsed.map(async (item) => {
-      if (item.phash) {
+      if (item.hashes) {
         return item;
       }
 
+      // Lazy-compute hashes so contributors can drop a new image into
+      // data/reference/images/ without having to re-run build:reference.
       const imageBuffer = await readFile(
         path.join(root, "data", "reference", "images", path.basename(item.imagePath)),
       );
       return {
         ...item,
-        phash: await computePhash(imageBuffer),
+        hashes: await computeImageHashes(imageBuffer),
       };
     }),
   );

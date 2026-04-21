@@ -9,12 +9,14 @@ function isComparableCondition(condition: string | null) {
   }
 
   const normalized = condition.toLowerCase();
+  // Only truly new, tagged stock is comparable to reference retail pricing.
+  // "new (other)", "new without tags", "open box", "refurbished", and "used" are
+  // all deliberately excluded — their prices are not apples-to-apples and the
+  // `available: false` branch below produces a clear reason for those.
   return (
     normalized === "new" ||
     normalized.includes("brand new") ||
-    normalized.includes("new with") ||
-    normalized.includes("new (other)") ||
-    normalized.includes("new without")
+    normalized.includes("new with tags")
   );
 }
 

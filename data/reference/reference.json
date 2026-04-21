@@ -9,19 +9,27 @@
     "minPrice": 39,
     "maxPrice": 65,
     "medianPrice": 42,
-    "phash": "c769b0948f2f72d0"
+    "hashes": {
+      "phash": "8ed361291e5ee5a1",
+      "ahash": "e7efdf9f8b878383",
+      "dhash": "332541cdcce0e0d1"
+    }
   },
   {
-    "id": "travel-essentials-zip-hoodie",
-    "title": "Halo Lightweight Crop Hoodie",
+    "id": "airplane-mode-travel-zip-hoodie",
+    "title": "Airplane Mode Travel Zip Hoodie",
     "category": "Hoodie",
-    "url": "https://comfrt.com/products/halo-lightweight-fleece-hoodie?variant=44961282031660",
-    "imageUrl": "https://comfrt.com/fast-image/comfrt/files/1_54_28f0274b-7e59-49eb-b75e-7a483f98ba6e.jpg?v=1763419911",
-    "imagePath": "data/reference/images/halo_lightweight_crop_hoodie.png",
+    "url": "https://comfrt.com/products/airplane-mode-travel-zip-hoodie",
+    "imageUrl": "https://comfrt.com/fast-image/comfrt/files/1_78.jpg%3Fv=1764113204",
+    "imagePath": "data/reference/images/airplane_mode_travel_zip_hoodie.jpg",
     "minPrice": 65,
     "maxPrice": 65,
     "medianPrice": 65,
-    "phash": "e1558fb8982a9576"
+    "hashes": {
+      "phash": "2cddc667398cb219",
+      "ahash": "060783393dff9f47",
+      "dhash": "4b7bf98ca6014a40"
+    }
   },
   {
     "id": "cloud-zip-hoodie",
@@ -33,7 +41,11 @@
     "minPrice": 39,
     "maxPrice": 69,
     "medianPrice": 59,
-    "phash": "f14e86819afe5992"
+    "hashes": {
+      "phash": "e29d0d0335fcb325",
+      "ahash": "ffe7c3818183c3c3",
+      "dhash": "123360dcc4ec6969"
+    }
   },
   {
     "id": "basic-half-zip-mock-neck",
@@ -45,7 +57,11 @@
     "minPrice": 49,
     "maxPrice": 49,
     "medianPrice": 49,
-    "phash": "8662f98c0fbcea70"
+    "hashes": {
+      "phash": "0cc5f3181f79d4e1",
+      "ahash": "27679f9f8f9f9fa5",
+      "dhash": "323056c3c3c3c392"
+    }
   },
   {
     "id": "love-hoodie",
@@ -57,7 +73,11 @@
     "minPrice": 49,
     "maxPrice": 49,
     "medianPrice": 49,
-    "phash": "8e78e0a59d9e9c98"
+    "hashes": {
+      "phash": "1cf1c14b3b3d3931",
+      "ahash": "e2c3c7bfb99b8f8f",
+      "dhash": "336bc386948cc7d3"
+    }
   },
   {
     "id": "pastel-zip-hoodie",
@@ -69,7 +89,11 @@
     "minPrice": 55,
     "maxPrice": 65,
     "medianPrice": 65,
-    "phash": "9c70e3860efe39c1"
+    "hashes": {
+      "phash": "38e1c70c1dfc7383",
+      "ahash": "e3c3c38bbf9fdf5f",
+      "dhash": "332169c585cc4653"
+    }
   },
   {
     "id": "camo-zip-hoodie",
@@ -81,7 +105,11 @@
     "minPrice": 45,
     "maxPrice": 55,
     "medianPrice": 45,
-    "phash": "b84ce3198ef3f803"
+    "hashes": {
+      "phash": "7099c6331de7f007",
+      "ahash": "f3e3c3991d1f1f3b",
+      "dhash": "1b31e8cc860d059d"
+    }
   },
   {
     "id": "affirmation-zip-hoodie",
@@ -93,6 +121,10 @@
     "minPrice": 45,
     "maxPrice": 55,
     "medianPrice": 45,
-    "phash": "f3ac86d68e1878a3"
+    "hashes": {
+      "phash": "e7590dad1c30f147",
+      "ahash": "e7e7c38181c3c3c3",
+      "dhash": "b23364ccc8e06068"
+    }
   }
 ]

@@ -7,7 +7,7 @@ import {
   topReasons,
 } from "@/lib/scoring";
 import {
-  computePhash,
+  computeImageHashes,
   scorePhashSimilarity,
   unavailablePhashSignal,
 } from "@/lib/scoring/phash";
@@ -258,8 +258,8 @@ export async function GET(request: Request) {
                   budget,
                   request.signal,
                 );
-                const hash = await computePhash(imageBuffer);
-                const phashSignal = scorePhashSimilarity(hash, references);
+                const hashes = await computeImageHashes(imageBuffer);
+                const phashSignal = scorePhashSimilarity(hashes, references);
                 listing.signals = [
                   ...listing.signals.filter((signal) => signal.name !== "phash"),
                   phashSignal,

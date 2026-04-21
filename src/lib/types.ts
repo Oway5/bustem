@@ -82,7 +82,11 @@ export type ReferenceItem = {
   minPrice: number | null;
   maxPrice: number | null;
   medianPrice: number | null;
-  phash: string | null;
+  hashes: {
+    phash: string;
+    ahash: string;
+    dhash: string;
+  } | null;
 };
 
 export type NormalizedListing = Result & {

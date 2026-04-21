@@ -6,7 +6,7 @@ import {
 } from "node:fs/promises";
 import path from "node:path";
 
-import { computePhash } from "../src/lib/scoring/phash";
+import { computeImageHashes } from "../src/lib/scoring/phash";
 import { median, normalizeText } from "../src/lib/scoring/shared";
 import type { ReferenceItem } from "../src/lib/types";
 
@@ -60,7 +60,17 @@ async function downloadImageBuffer(imageUrl: string) {
     throw new Error(`Failed to download reference image: ${response.status}`);
   }
 
-  return Buffer.from(await response.arrayBuffer());
+  const contentType = response.headers.get("content-type") ?? "";
+  const extension = contentType.includes("png")
+    ? "png"
+    : contentType.includes("webp")
+      ? "webp"
+      : "jpg";
+
+  return {
+    buffer: Buffer.from(await response.arrayBuffer()),
+    extension,
+  };
 }
 
 function chooseReferenceItems(items: CollectionItem[]) {
@@ -158,9 +168,9 @@ async function main() {
   const references: ReferenceItem[] = [];
 
   for (const item of selectedItems) {
-    const filename = `${slugify(item.title)}.jpg`;
+    const { buffer, extension } = await downloadImageBuffer(item.imageUrl);
+    const filename = `${slugify(item.title)}.${extension}`;
     const imagePath = path.posix.join("data", "reference", "images", filename);
-    const buffer = await downloadImageBuffer(item.imageUrl);
     await writeFile(path.join(root, imagePath), buffer);
 
     references.push({
@@ -173,7 +183,7 @@ async function main() {
       minPrice: item.prices.length > 0 ? Math.min(...item.prices) : null,
       maxPrice: item.prices.length > 0 ? Math.max(...item.prices) : null,
       medianPrice: median(item.prices),
-      phash: await computePhash(buffer),
+      hashes: await computeImageHashes(buffer),
     });
   }
 
