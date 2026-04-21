@@ -1,15 +1,21 @@
 import type { NormalizedListing, ReferenceItem, Signal } from "@/lib/types";
-import { clamp, median } from "@/lib/scoring/shared";
+import { clamp } from "@/lib/scoring/shared";
 
 const WEIGHT = 0.2;
 
 function isComparableCondition(condition: string | null) {
   if (!condition) {
-    return true;
+    return false;
   }
 
   const normalized = condition.toLowerCase();
-  return !normalized.includes("pre-owned") && !normalized.includes("used");
+  return (
+    normalized === "new" ||
+    normalized.includes("brand new") ||
+    normalized.includes("new with") ||
+    normalized.includes("new (other)") ||
+    normalized.includes("new without")
+  );
 }
 
 export function scorePriceAnomaly(
@@ -17,25 +23,22 @@ export function scorePriceAnomaly(
   references: ReferenceItem[],
 ) {
   const rawTotal = listing.totalPrice ?? listing.price;
-  const matchedReference = references.find(
-    (reference) => reference.id === listing.matchReferenceId,
-  );
+  const matchedReference = listing.matchReferenceId
+    ? references.find((reference) => reference.id === listing.matchReferenceId) ?? null
+    : null;
+  const referenceMedian = matchedReference?.medianPrice ?? null;
 
-  const comparablePrices = references
-    .map((reference) => reference.medianPrice)
-    .filter((price): price is number => price !== null);
-
-  const referenceMedian =
-    matchedReference?.medianPrice ?? median(comparablePrices) ?? null;
-
-  if (!listing.fixedPrice || !isComparableCondition(listing.condition) || rawTotal === null) {
+  if (listing.saleFormat !== "fixed") {
     return {
       name: "price",
       score: 0,
       weight: WEIGHT,
       contribution: 0,
       available: false,
-      reason: "Price is not comparable for this listing condition or sale format.",
+      reason:
+        listing.saleFormat === "auction"
+          ? "Price is not comparable for auction listings."
+          : "Price is not comparable because the sale format is unknown.",
       raw: {
         listingPrice: listing.price,
         shippingPrice: listing.shippingPrice,
@@ -43,6 +46,74 @@ export function scorePriceAnomaly(
         referenceMedian,
         deviationPct: null,
         condition: listing.condition,
+        saleFormat: listing.saleFormat,
+        matchedReferenceId: listing.matchReferenceId ?? null,
+      },
+    } satisfies Signal;
+  }
+
+  if (!isComparableCondition(listing.condition)) {
+    return {
+      name: "price",
+      score: 0,
+      weight: WEIGHT,
+      contribution: 0,
+      available: false,
+      reason: listing.condition
+        ? "Price is not comparable for this listing condition."
+        : "Price is not comparable because the listing condition is missing.",
+      raw: {
+        listingPrice: listing.price,
+        shippingPrice: listing.shippingPrice,
+        totalPrice: listing.totalPrice,
+        referenceMedian,
+        deviationPct: null,
+        condition: listing.condition,
+        saleFormat: listing.saleFormat,
+        matchedReferenceId: listing.matchReferenceId ?? null,
+      },
+    } satisfies Signal;
+  }
+
+  if (rawTotal === null) {
+    return {
+      name: "price",
+      score: 0,
+      weight: WEIGHT,
+      contribution: 0,
+      available: false,
+      reason: "Price is not comparable because the listing price is missing.",
+      raw: {
+        listingPrice: listing.price,
+        shippingPrice: listing.shippingPrice,
+        totalPrice: listing.totalPrice,
+        referenceMedian,
+        deviationPct: null,
+        condition: listing.condition,
+        saleFormat: listing.saleFormat,
+        matchedReferenceId: listing.matchReferenceId ?? null,
+      },
+    } satisfies Signal;
+  }
+
+  if (!matchedReference) {
+    return {
+      name: "price",
+      score: 0,
+      weight: WEIGHT,
+      contribution: 0,
+      available: false,
+      reason:
+        "Price is not comparable without a credible reference title match.",
+      raw: {
+        listingPrice: listing.price,
+        shippingPrice: listing.shippingPrice,
+        totalPrice: listing.totalPrice,
+        referenceMedian,
+        deviationPct: null,
+        condition: listing.condition,
+        saleFormat: listing.saleFormat,
+        matchedReferenceId: listing.matchReferenceId ?? null,
       },
     } satisfies Signal;
   }
@@ -54,7 +125,7 @@ export function scorePriceAnomaly(
       weight: WEIGHT,
       contribution: 0,
       available: false,
-      reason: "Reference price data is unavailable.",
+      reason: "Reference price data is unavailable for the matched item.",
       raw: {
         listingPrice: listing.price,
         shippingPrice: listing.shippingPrice,
@@ -62,6 +133,8 @@ export function scorePriceAnomaly(
         referenceMedian,
         deviationPct: null,
         condition: listing.condition,
+        saleFormat: listing.saleFormat,
+        matchedReferenceId: listing.matchReferenceId ?? null,
       },
     } satisfies Signal;
   }
@@ -88,6 +161,8 @@ export function scorePriceAnomaly(
       referenceMedian,
       deviationPct,
       condition: listing.condition,
+      saleFormat: listing.saleFormat,
+      matchedReferenceId: listing.matchReferenceId ?? null,
     },
   } satisfies Signal;
 }

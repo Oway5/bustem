@@ -1,4 +1,9 @@
-import type { Marketplace, NormalizedListing, Result } from "@/lib/types";
+import type {
+  Marketplace,
+  NormalizedListing,
+  Result,
+  SaleFormat,
+} from "@/lib/types";
 import { RequestBudget } from "@/lib/budget";
 
 const DEFAULT_API_KEY = "4558fb24345f6ac0aa999ef5d14f5ea9";
@@ -62,13 +67,24 @@ function parseEbayItemId(url: string) {
   return match?.[1] ?? null;
 }
 
-function asFixedPrice(extraInfo: string | null) {
+function inferSaleFormat(extraInfo: string | null): SaleFormat {
   if (!extraInfo) {
-    return true;
+    return "unknown";
   }
 
   const normalized = extraInfo.toLowerCase();
-  return normalized.includes("buy it now") || normalized.includes("best offer");
+  if (
+    normalized.includes("buy it now") ||
+    normalized.includes("best offer")
+  ) {
+    return "fixed";
+  }
+
+  if (normalized.includes("auction") || normalized.includes("bid")) {
+    return "auction";
+  }
+
+  return "unknown";
 }
 
 function normalizeAmazonResults(
@@ -104,7 +120,7 @@ function normalizeAmazonResults(
         signals: [],
         topReasons: [],
         scoredAt: 0,
-        fixedPrice: true,
+        saleFormat: "fixed",
       };
 
       return result;
@@ -165,7 +181,7 @@ function normalizeEbayResults(
         signals: [],
         topReasons: [],
         scoredAt: 0,
-        fixedPrice: asFixedPrice(extraInfo),
+        saleFormat: inferSaleFormat(extraInfo),
       };
 
       return result;

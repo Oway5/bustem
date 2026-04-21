@@ -1,4 +1,5 @@
 export type Marketplace = "amazon" | "ebay";
+export type SaleFormat = "fixed" | "auction" | "unknown";
 
 export type SignalName = "brandCue" | "title" | "price" | "phash";
 
@@ -88,5 +89,5 @@ export type NormalizedListing = Result & {
   coarseScore?: number;
   matchReferenceId?: string | null;
   matchReferenceTitle?: string | null;
-  fixedPrice: boolean;
+  saleFormat: SaleFormat;
 };
