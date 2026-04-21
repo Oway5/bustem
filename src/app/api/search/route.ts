@@ -14,13 +14,23 @@ import {
 import { fetchMarketplacePage, mergeListing, SEARCH_QUERIES } from "@/lib/scraper";
 import type { NormalizedListing, StreamEvent } from "@/lib/types";
 import { RequestBudget } from "@/lib/budget";
+import { HttpStatusError, withRetry } from "@/lib/retry";
 
 export const runtime = "nodejs";
 
-const BUDGET_CAP = 120;
-const SCRAPER_CONCURRENCY = 5;
-const IMAGE_CONCURRENCY = 6;
-const MAX_SHORTLIST = 30;
+function envNumber(name: string, fallback: number) {
+  const raw = process.env[name];
+  if (!raw) {
+    return fallback;
+  }
+  const parsed = Number(raw);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+}
+
+const BUDGET_CAP = envNumber("BUSTEM_BUDGET_CAP", 120);
+const SCRAPER_CONCURRENCY = envNumber("BUSTEM_SCRAPER_CONCURRENCY", 5);
+const IMAGE_CONCURRENCY = envNumber("BUSTEM_IMAGE_CONCURRENCY", 6);
+const MAX_SHORTLIST = envNumber("BUSTEM_MAX_SHORTLIST", 30);
 
 function serialize(event: StreamEvent) {
   return `${JSON.stringify(event)}\n`;
@@ -71,12 +81,22 @@ async function fetchImageBuffer(
     throw new Error("Image request skipped because the request budget is exhausted.");
   }
 
-  const response = await fetch(imageUrl, { cache: "no-store", signal });
-  if (!response.ok) {
-    throw new Error(`Image fetch failed with ${response.status}`);
-  }
+  // Budget reserved once outside withRetry so a transient image CDN hiccup
+  // doesn't burn the shared per-job request cap.
+  return withRetry(
+    async () => {
+      const response = await fetch(imageUrl, { cache: "no-store", signal });
+      if (!response.ok) {
+        throw new HttpStatusError(
+          response.status,
+          `Image fetch failed with ${response.status}`,
+        );
+      }
 
-  return Buffer.from(await response.arrayBuffer());
+      return Buffer.from(await response.arrayBuffer());
+    },
+    { signal, attempts: 2, baseMs: 250 },
+  );
 }
 
 export async function GET(request: Request) {

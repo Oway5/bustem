@@ -5,6 +5,7 @@ import type {
   SaleFormat,
 } from "@/lib/types";
 import { RequestBudget } from "@/lib/budget";
+import { HttpStatusError, RateLimitedError, withRetry } from "@/lib/retry";
 
 const DEFAULT_API_KEY = "4558fb24345f6ac0aa999ef5d14f5ea9";
 
@@ -209,20 +210,42 @@ export async function fetchMarketplacePage(params: {
     };
   }
 
-  const response = await fetch(buildUrl(marketplace, query, page), {
-    cache: "no-store",
-    signal,
-  });
+  // Budget is reserved *before* withRetry so a transient 503 doesn't double-bill
+  // the shared per-job request cap.
+  const payload = await withRetry(
+    async () => {
+      const response = await fetch(buildUrl(marketplace, query, page), {
+        cache: "no-store",
+        signal,
+      });
 
-  if (!response.ok) {
-    throw new Error(
-      `${marketplace} page ${page} for "${query}" failed with ${response.status}`,
-    );
-  }
+      if (!response.ok) {
+        throw new HttpStatusError(
+          response.status,
+          `${marketplace} page ${page} for "${query}" failed with ${response.status}`,
+        );
+      }
 
-  const payload = (await response.json()) as
-    | { results?: Array<Record<string, unknown>> }
-    | Array<Record<string, unknown>>;
+      const body = (await response.json()) as
+        | { results?: Array<Record<string, unknown>> }
+        | Array<Record<string, unknown>>;
+
+      // ScraperAPI sometimes returns a 200 with a rate-limit marker in the body
+      // instead of a 429. Treat that as a retryable error.
+      if (body && !Array.isArray(body)) {
+        const maybeMessage = (body as { message?: unknown }).message;
+        if (
+          typeof maybeMessage === "string" &&
+          /rate limit|too many requests/i.test(maybeMessage)
+        ) {
+          throw new RateLimitedError(maybeMessage);
+        }
+      }
+
+      return body;
+    },
+    { signal, attempts: 3, baseMs: 400 },
+  );
 
   const results =
     marketplace === "amazon"
