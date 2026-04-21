@@ -1,0 +1,98 @@
+[
+  {
+    "id": "tranquil-hoodie",
+    "title": "Tranquil Hoodie",
+    "category": "Hoodie",
+    "url": "https://comfrt.com/products/tranquil-hoodie",
+    "imageUrl": "https://comfrt.com/fast-image/comfrt/files/1_-_2026-02-12T133654.952.jpg%3Fv=1770933625",
+    "imagePath": "data/reference/images/tranquil_hoodie.jpg",
+    "minPrice": 39,
+    "maxPrice": 65,
+    "medianPrice": 42,
+    "phash": "c769b0948f2f72d0"
+  },
+  {
+    "id": "airplane-mode-travel-zip-hoodie",
+    "title": "Airplane Mode Travel Zip Hoodie",
+    "category": "Hoodie",
+    "url": "https://comfrt.com/products/airplane-mode-travel-zip-hoodie",
+    "imageUrl": "https://comfrt.com/fast-image/comfrt/files/1_78.jpg%3Fv=1764113204",
+    "imagePath": "data/reference/images/airplane_mode_travel_zip_hoodie.jpg",
+    "minPrice": 65,
+    "maxPrice": 65,
+    "medianPrice": 65,
+    "phash": "966ee3339cc6590c"
+  },
+  {
+    "id": "cloud-zip-hoodie",
+    "title": "Cloud Zip Hoodie",
+    "category": "Hoodie",
+    "url": "https://comfrt.com/products/cloud-zip-hoodie",
+    "imageUrl": "https://comfrt.com/fast-image/comfrt/files/1_cfd2eb97-a0d6-471b-a65e-1cd4a346e0e7.jpg%3Fv=1744398985",
+    "imagePath": "data/reference/images/cloud_zip_hoodie.jpg",
+    "minPrice": 39,
+    "maxPrice": 69,
+    "medianPrice": 59,
+    "phash": "f14e86819afe5992"
+  },
+  {
+    "id": "basic-half-zip-mock-neck",
+    "title": "Basic Quarter Zip Mock Neck",
+    "category": "Sweatshirt",
+    "url": "https://comfrt.com/products/basic-half-zip-mock-neck",
+    "imageUrl": "https://comfrt.com/fast-image/comfrt/files/1_-_2026-01-21T154307.961.jpg%3Fv=1769039020",
+    "imagePath": "data/reference/images/basic_quarter_zip_mock_neck.jpg",
+    "minPrice": 49,
+    "maxPrice": 49,
+    "medianPrice": 49,
+    "phash": "8662f98c0fbcea70"
+  },
+  {
+    "id": "love-hoodie",
+    "title": "Love Hoodie",
+    "category": "Hoodie",
+    "url": "https://comfrt.com/products/love-hoodie",
+    "imageUrl": "https://comfrt.com/fast-image/comfrt/files/1_53.jpg%3Fv=1737756593",
+    "imagePath": "data/reference/images/love_hoodie.jpg",
+    "minPrice": 49,
+    "maxPrice": 49,
+    "medianPrice": 49,
+    "phash": "8e78e0a59d9e9c98"
+  },
+  {
+    "id": "pastel-zip-hoodie",
+    "title": "Pastel Zip Hoodie",
+    "category": "Hoodie",
+    "url": "https://comfrt.com/products/pastel-zip-hoodie",
+    "imageUrl": "https://comfrt.com/fast-image/comfrt/files/1_5700a7d8-cccc-417c-8154-babe2ab43c82.jpg%3Fv=1744987557",
+    "imagePath": "data/reference/images/pastel_zip_hoodie.jpg",
+    "minPrice": 55,
+    "maxPrice": 65,
+    "medianPrice": 65,
+    "phash": "9c70e3860efe39c1"
+  },
+  {
+    "id": "camo-zip-hoodie",
+    "title": "Camo Zip Hoodie",
+    "category": "Hoodie",
+    "url": "https://comfrt.com/products/camo-zip-hoodie",
+    "imageUrl": "https://comfrt.com/fast-image/comfrt/files/1_a4cbf930-9da1-43f3-bcc6-6192900cbebe.jpg%3Fv=1757453276",
+    "imagePath": "data/reference/images/camo_zip_hoodie.jpg",
+    "minPrice": 45,
+    "maxPrice": 55,
+    "medianPrice": 45,
+    "phash": "b84ce3198ef3f803"
+  },
+  {
+    "id": "affirmation-zip-hoodie",
+    "title": "Affirmation Zip Hoodie",
+    "category": "Hoodie",
+    "url": "https://comfrt.com/products/affirmation-zip-hoodie",
+    "imageUrl": "https://comfrt.com/fast-image/comfrt/files/1_9358c8f4-0884-42a4-a061-de4d1531d73d.jpg%3Fv=1741350619",
+    "imagePath": "data/reference/images/affirmation_zip_hoodie.jpg",
+    "minPrice": 45,
+    "maxPrice": 55,
+    "medianPrice": 45,
+    "phash": "f3ac86d68e1878a3"
+  }
+]
