@@ -25,13 +25,16 @@ This is a Next.js App Router app that simulates a simplified infringement-detect
 
 ## Local setup
 
+Requires Node 20+ (Next.js 16 requirement).
+
 ```bash
 npm install
-npm run build:reference
 npm run dev
 ```
 
-`npm run build:reference` downloads the selected reference images from the live Comfrt collection page, refreshes `data/reference/images/`, and rewrites `data/reference/reference.json`.
+Open http://localhost:3000 and click "Start Search Job". The reference images and precomputed hashes in `data/reference/` are committed, so nothing else is required to run the app.
+
+`npm run build:reference` is optional and only needed to refresh the reference set. It downloads the selected reference images from the live Comfrt collection page, refreshes `data/reference/images/`, and rewrites `data/reference/reference.json`.
 
 The app works with the take-home ScraperAPI key by default. To override it:
 
